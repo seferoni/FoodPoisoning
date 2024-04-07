@@ -1,0 +1,10 @@
+{
+  "Name": "Food Poisoning",
+  "Author": "seferoni",
+  "Version": "1.0.0",
+  "Description": "A lightweight, minimally implementation of food poisoning.",
+  "UniqueID": "seferoni.FoodPoisoning",
+  "EntryDll": "FoodPoisoning.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": [ "Nexus:22006" ]
+}

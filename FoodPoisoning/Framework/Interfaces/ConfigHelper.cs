@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using StardewModdingAPI;
 
-namespace EnergyRework.Interfaces
+namespace FoodPoisoning.Interfaces
 {
 	internal sealed class ConfigHelper
 	{
@@ -20,7 +20,7 @@ namespace EnergyRework.Interfaces
 			Config = config;
 		}
 
-		internal void AddSetting(string key, Expression<Func<float>> getter, float min = -15f, float max = 0f, float interval = 1f)
+		internal void AddSetting(string key, Expression<Func<float>> getter, float min = 0f, float max = 100f, float interval = 1f)
 		{
 			Func<float> newGetter = getter.Compile()!;
 			Action<float> newSetter = GetSetterFromGetter(getter);

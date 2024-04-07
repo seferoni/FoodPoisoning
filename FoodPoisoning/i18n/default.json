@@ -1,0 +1,10 @@
+{
+
+	"title": "Parameters",
+
+	"base_poisoning_chance": "Food Poisoning Chance",
+	"base_poisoning_chance.tooltip": "The chance for food poisoning to occur upon food consumption.",
+
+	"base_duration": "Nausea Duration",
+	"base_duration.tooltip":  "How long the nauseated effect lasts, in seconds."
+}
