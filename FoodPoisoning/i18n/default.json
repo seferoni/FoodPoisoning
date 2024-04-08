@@ -5,8 +5,8 @@
 	"base_poisoning_chance": "Food Poisoning Chance",
 	"base_poisoning_chance.tooltip": "The chance for food poisoning to occur upon food consumption.",
 
-	"base_duration": "Nausea Duration",
-	"base_duration.tooltip": "How long the nauseated effect lasts, in seconds.",
+	"base_duration": "Nauseated Duration",
+	"base_duration.tooltip": "How long the Nauseated effect lasts, in seconds.",
 
 	"harmful_edibility_threshold": "Harmful Edibility Threshold",
 	"harmful_edibility_threshold.tooltip": "Denotes the maximum edibility below which food items are considered harmful.",

@@ -20,6 +20,7 @@ namespace FoodPoisoning.Common
 			Buff nauseated = new(nauseatedID)
 			{
 				millisecondsDuration = newDuration,
+				source = "Food Poisoning",
 				glow = Microsoft.Xna.Framework.Color.White
 			};
 
