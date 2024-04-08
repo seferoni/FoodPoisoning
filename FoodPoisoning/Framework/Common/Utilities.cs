@@ -7,9 +7,14 @@ namespace FoodPoisoning.Common
 	internal sealed class Utilities
 	{
 		internal const string nauseatedID = "25";
-		private const int conversionFactor = 1000; 
+		private const int conversionFactor = 1000;
 		internal static void ApplyNauseated(SObject foodObject)
 		{
+			if (foodObject.HasContextTag("ginger_item"))
+			{
+				return;
+			}
+
 			int newDuration = GetDurationByFood(foodObject) * conversionFactor;
 
 			Buff nauseated = new(nauseatedID)
