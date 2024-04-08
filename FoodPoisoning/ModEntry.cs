@@ -1,5 +1,4 @@
 ﻿using StardewModdingAPI;
-using FoodPoisoning.Common;
 using FoodPoisoning.Interfaces;
 using StardewModdingAPI.Events;
 using HarmonyLib;
@@ -51,7 +50,10 @@ namespace FoodPoisoning
 			);
 
 			configHelper.AddSetting("base_poisoning_chance", () => Config.BasePoisoningChance);
-			configHelper.AddSetting("duration", () => Config.BaseDuration, min: 10f, max: 240f, interval: 2f);
+			configHelper.AddSetting("duration", () => Config.BaseDuration, min: 10, max: 240, interval: 2);
+			configHelper.AddSetting("harmful_edibility_threshold", () => Config.HarmfulThreshold, min: -300, max: 100, interval: 5);
+			configHelper.AddSetting("harmful_chance_offset", () => Config.HarmfulChanceOffset);
+			configHelper.AddSetting("harmful_duration_offset", () => Config.HarmfulDurationOffset, min: 10, max: 120, interval: 2);
 		}
 	}
 }

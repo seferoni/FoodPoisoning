@@ -20,10 +20,10 @@ namespace FoodPoisoning.Interfaces
 			Config = config;
 		}
 
-		internal void AddSetting(string key, Expression<Func<float>> getter, float min = 0f, float max = 100f, float interval = 1f)
+		internal void AddSetting(string key, Expression<Func<int>> getter, int? min = 0, int? max = 100, int? interval = 1)
 		{
-			Func<float> newGetter = getter.Compile()!;
-			Action<float> newSetter = GetSetterFromGetter(getter);
+			Func<int> newGetter = getter.Compile()!;
+			Action<int> newSetter = GetSetterFromGetter(getter);
 
 			API.AddNumberOption(
 				mod: Mod,

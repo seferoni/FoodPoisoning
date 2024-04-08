@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Channels;
 using StardewValley;
 using SObject = StardewValley.Object;
 
@@ -12,7 +10,7 @@ namespace FoodPoisoning.Common
 		private const int conversionFactor = 1000; 
 		internal static void ApplyNauseated(SObject foodObject)
 		{
-			int newDuration = (int)GetDurationByFood(foodObject) * conversionFactor;
+			int newDuration = GetDurationByFood(foodObject) * conversionFactor;
 
 			Buff nauseated = new(nauseatedID)
 			{
@@ -23,7 +21,7 @@ namespace FoodPoisoning.Common
 			Game1.player.buffs.Apply(nauseated);
 		}
 
-		internal static float GetDurationByFood(SObject foodObject)
+		internal static int GetDurationByFood(SObject foodObject)
 		{
 			var duration = ModEntry.Config.BaseDuration;
 
@@ -35,7 +33,7 @@ namespace FoodPoisoning.Common
 			return duration;
 		}
 
-		internal static float GetPercentageChanceByFood(SObject foodObject)
+		internal static int GetPercentageChanceByFood(SObject foodObject)
 		{
 			var chance = ModEntry.Config.BasePoisoningChance;
 
@@ -44,7 +42,7 @@ namespace FoodPoisoning.Common
 				chance += ModEntry.Config.HarmfulChanceOffset;
 			}
 
-			return Math.Min(chance, 100f);
+			return Math.Min(chance, 100);
 		}
 
 		internal static bool IsFoodHarmful(SObject foodObject)

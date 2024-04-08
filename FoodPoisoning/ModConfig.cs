@@ -2,9 +2,10 @@
 {
 	public sealed class ModConfig
 	{
-		public float BasePoisoningChance { get; set; } = 100f;
-		public float BaseDuration { get; set; } = 120f;
-		public float HarmfulChanceOffset { get; set; } = 50f;
-		public float HarmfulDurationOffset { get; set; } = 2f;
+		public int BasePoisoningChance { get; set; } = 30;
+		public int BaseDuration { get; set; } = 120;
+		public int HarmfulThreshold { get; set; } = 0;
+		public int HarmfulChanceOffset { get; set; } = 70;
+		public int HarmfulDurationOffset { get; set; } = 60;
 	}
 }
