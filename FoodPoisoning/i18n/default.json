@@ -3,18 +3,18 @@
 	"title": "Parameters",
 
 	"base_poisoning_chance": "Food Poisoning Chance",
-	"base_poisoning_chance.tooltip": "The chance for food poisoning to occur upon food consumption.",
+	"base_poisoning_chance.tooltip": "The base chance for food poisoning to occur upon consumption of a food item that is neither cooked nor considered an artisanal good.",
 
 	"base_duration": "Nauseated Duration",
-	"base_duration.tooltip": "How long the Nauseated effect lasts, in seconds.",
+	"base_duration.tooltip": "The base duration for the length of the Nauseated effect applied upon food poisoning, in seconds.",
 
 	"harmful_edibility_threshold": "Harmful Edibility Threshold",
-	"harmful_edibility_threshold.tooltip": "Denotes the maximum edibility below which food items are considered harmful.",
+	"harmful_edibility_threshold.tooltip": "Denotes the maximum edibility below which food items are considered Harmful.",
 
-	"harmful_chance_offset": "Harmful Edibility Chance Offset",
-	"harmful_chance_offset.tooltip": "The additional chance for food poisoning to occur upon consuming a harmful food item.",
+	"harmful_chance_offset": "Harmful Food Chance Offset",
+	"harmful_chance_offset.tooltip": "The additional chance for food poisoning to occur upon consuming a Harmful food item.",
 
-	"harmful_duration_offset": "Harmful Edibility Duration Offset",
-	"harmful_duration_offset.tooltip": "The additional duration, in seconds, added to the Nauseated debuff when applied by consumption of a harmful food item."
+	"harmful_duration_offset": "Harmful Food Duration Offset",
+	"harmful_duration_offset.tooltip": "The additional duration, in seconds, added to the Nauseated debuff when applied by consumption of a Harmful food item."
 
 }

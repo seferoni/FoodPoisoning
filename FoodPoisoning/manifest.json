@@ -2,7 +2,7 @@
   "Name": "Food Poisoning",
   "Author": "seferoni",
   "Version": "1.0.0",
-  "Description": "A lightweight, minimally implementation of food poisoning.",
+  "Description": "A configurable implementation of food poisoning incurred upon the consumption of uncooked food.",
   "UniqueID": "seferoni.FoodPoisoning",
   "EntryDll": "FoodPoisoning.dll",
   "MinimumApiVersion": "4.0.0",

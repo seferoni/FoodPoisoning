@@ -48,12 +48,12 @@ namespace FoodPoisoning.Common
 				chance += ModEntry.Config.HarmfulChanceOffset;
 			}
 
-			return Math.Min(chance, 100);
+			return chance;
 		}
 
 		internal static bool IsFoodHarmful(SObject foodObject)
 		{
-			if (foodObject.Edibility >= 0)
+			if (foodObject.Edibility >= ModEntry.Config.HarmfulThreshold)
 			{
 				return false;
 			}
