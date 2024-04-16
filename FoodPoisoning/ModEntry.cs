@@ -1,59 +1,63 @@
-﻿using StardewModdingAPI;
+﻿#region global using directives
+
+global using System;
+global using System.Collections.Generic;
+global using SharedLibrary.Interfaces.GMCM;
+global using SharedLibrary.Integrations.GMCM;
+global using StardewValley;
+global using StardewModdingAPI;
+
+#endregion
+
+namespace FoodPoisoning;
+
+#region using directives
+
+using HarmonyLib;
 using FoodPoisoning.Interfaces;
 using StardewModdingAPI.Events;
-using HarmonyLib;
-using StardewValley;
 
-namespace FoodPoisoning
+#endregion
+
+internal sealed class ModEntry : Mod
 {
-	internal sealed class ModEntry : Mod
+	internal static ModConfig Config { get; set; } = null!;
+	public override void Entry(IModHelper helper)
 	{
-		internal static ModConfig Config { get; set; } = null!;
-		public override void Entry(IModHelper helper)
+		Config = Helper.ReadConfig<ModConfig>();
+		InitialiseHarmony();
+
+		// Event subscriptions.
+		helper.Events.GameLoop.GameLaunched += GameLaunched;
+	}
+
+	private void GameLaunched(object? sender, GameLaunchedEventArgs e)
+	{
+		SetupConfig();
+	}
+
+	private void InitialiseHarmony()
+	{
+		Harmony harmonyInstance = new(ModManifest.UniqueID);
+		HarmonyPatcher.InitialiseMonitor(Monitor);
+
+		harmonyInstance.Patch
+		(
+			original: AccessTools.Method(typeof(Farmer), nameof(Farmer.doneEating)),
+			postfix: new HarmonyMethod(typeof(HarmonyPatcher), nameof(HarmonyPatcher.DoneEating_PostFix))
+		);
+	}
+
+	private void SetupConfig()
+	{
+		var GMCMInterface = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+
+		if (GMCMInterface is null)
 		{
-			Config = Helper.ReadConfig<ModConfig>();
-			Harmony harmonyInstance = new(ModManifest.UniqueID);
-
-			harmonyInstance.Patch(
-			   original: AccessTools.Method(typeof(Farmer), nameof(Farmer.doneEating)),
-			   postfix: new HarmonyMethod(typeof(HarmonyPatcher), nameof(HarmonyPatcher.DoneEating_PostFix))
-			);
-
-			helper.Events.GameLoop.GameLaunched += GameLaunched;
+			return;
 		}
 
-		private void GameLaunched(object? sender, GameLaunchedEventArgs e)
-		{
-			SetupConfig();
-		}
-
-		private void SetupConfig()
-		{
-			var api = Helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
-
-			if (api is null)
-			{
-				return;
-			}
-
-			ConfigHelper configHelper = new(api, ModManifest, Helper.Translation, Config);
-
-			api.Register(
-				mod: ModManifest,
-				reset: () => Config = new(),
-				save: () => Helper.WriteConfig(Config)
-			);
-
-			api.AddSectionTitle(
-				mod: ModManifest,
-				text: () => Helper.Translation.Get("title")
-			);
-
-			configHelper.AddSetting("base_poisoning_chance", () => Config.BasePoisoningChance);
-			configHelper.AddSetting("base_duration", () => Config.BaseDuration, min: 10, max: 240, interval: 2);
-			configHelper.AddSetting("harmful_edibility_threshold", () => Config.HarmfulThreshold, min: -300, max: 100, interval: 5);
-			configHelper.AddSetting("harmful_chance_offset", () => Config.HarmfulChanceOffset);
-			configHelper.AddSetting("harmful_duration_offset", () => Config.HarmfulDurationOffset, min: 10, max: 120, interval: 2);
-		}
+		GMCMHelper.Initialise(GMCMInterface, Helper, ModManifest);
+		GMCMHelper.Build(Config);
 	}
 }

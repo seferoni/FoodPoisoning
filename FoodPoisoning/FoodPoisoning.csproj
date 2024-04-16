@@ -12,4 +12,6 @@
 		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
 	</ItemGroup>
 
+	<Import Project ="D:\sdv modding playground\repos\Shared\SharedLibrary\SharedLibrary.projitems" Label="Shared" />
+
 </Project>

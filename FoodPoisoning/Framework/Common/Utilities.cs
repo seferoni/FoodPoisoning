@@ -1,96 +1,99 @@
-﻿using System;
-using StardewValley;
+﻿namespace FoodPoisoning.Common;
+
+#region using directives
+
 using SObject = StardewValley.Object;
 
-namespace FoodPoisoning.Common
+#endregion
+
+internal static class Utilities
 {
-	internal sealed class Utilities
+	private static string NauseatedID { get; } = "25";
+	internal static void ApplyNauseated(SObject foodObject)
 	{
-		internal const string nauseatedID = "25";
-		private const int conversionFactor = 1000;
-		internal static void ApplyNauseated(SObject foodObject)
+		int newDuration = GetDurationByFood(foodObject);
+
+		Buff nauseated = new(NauseatedID)
 		{
-			if (foodObject.HasContextTag("ginger_item"))
-			{
-				return;
-			}
+			millisecondsDuration = newDuration,
+			source = "Food Poisoning",
+			glow = Microsoft.Xna.Framework.Color.White
+		};
 
-			int newDuration = GetDurationByFood(foodObject) * conversionFactor;
+		Game1.player.buffs.Apply(nauseated);
+	}
 
-			Buff nauseated = new(nauseatedID)
-			{
-				millisecondsDuration = newDuration,
-				source = "Food Poisoning",
-				glow = Microsoft.Xna.Framework.Color.White
-			};
+	internal static int GetDurationByFood(SObject foodObject)
+	{
+		int duration = ModEntry.Config.BaseDuration;
 
-			Game1.player.buffs.Apply(nauseated);
+		if (IsFoodHarmful(foodObject))
+		{
+			duration += ModEntry.Config.HarmfulDurationOffset;
 		}
 
-		internal static int GetDurationByFood(SObject foodObject)
+		return duration * 1000;
+	}
+
+	internal static int GetPercentageChanceByFood(SObject foodObject)
+	{
+		int chance = ModEntry.Config.BasePoisoningChance;
+
+		if (IsFoodHarmful(foodObject))
 		{
-			var duration = ModEntry.Config.BaseDuration;
-
-			if (IsFoodHarmful(foodObject))
-			{
-				duration += ModEntry.Config.HarmfulDurationOffset;
-			}
-
-			return duration;
+			chance += ModEntry.Config.HarmfulChanceOffset;
 		}
 
-		internal static int GetPercentageChanceByFood(SObject foodObject)
+		return chance;
+	}
+
+	internal static bool IsFoodHarmful(SObject foodObject)
+	{
+		if (foodObject.Edibility >= ModEntry.Config.HarmfulThreshold)
 		{
-			var chance = ModEntry.Config.BasePoisoningChance;
-
-			if (IsFoodHarmful(foodObject))
-			{
-				chance += ModEntry.Config.HarmfulChanceOffset;
-			}
-
-			return chance;
-		}
-
-		internal static bool IsFoodHarmful(SObject foodObject)
-		{
-			if (foodObject.Edibility >= ModEntry.Config.HarmfulThreshold)
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		internal static bool IsFoodViable(SObject foodObject)
-		{
-			if (foodObject.Category == SObject.CookingCategory)
-			{
-				return true;
-			}
-
-			if (foodObject.Category == SObject.artisanGoodsCategory)
-			{
-				return true;
-			}
-
 			return false;
 		}
 
-		internal static void UpdateFoodConsumption(SObject foodObject)
+		return true;
+	}
+
+	internal static bool IsFoodSafe(SObject foodObject)
+	{
+		if (foodObject.HasContextTag("ginger_item"))
 		{
-			Random randomiserInstance = new();
-
-			if (IsFoodViable(foodObject))
-			{
-				return;
-			}
-
-			if (randomiserInstance.Next(1, 100) > GetPercentageChanceByFood(foodObject))
-			{
-				return;
-			}
-
-			ApplyNauseated(foodObject);
+			return true;
 		}
+
+		if (foodObject.Category == SObject.CookingCategory)
+		{
+			return true;
+		}
+
+		if (foodObject.Category == SObject.artisanGoodsCategory)
+		{
+			return true;
+		}
+
+		if (foodObject.Category == SObject.FruitsCategory)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	internal static void UpdateFoodConsumption(SObject foodObject)
+	{
+		if (IsFoodSafe(foodObject))
+		{
+			return;
+		}
+
+		if (Game1.random.Next(1, 100) > GetPercentageChanceByFood(foodObject))
+		{
+			return;
+		}
+
+		ApplyNauseated(foodObject);
 	}
 }

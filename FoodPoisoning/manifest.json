@@ -1,7 +1,7 @@
 {
   "Name": "Food Poisoning",
   "Author": "seferoni",
-  "Version": "1.0.0",
+  "Version": "1.1.0",
   "Description": "A configurable implementation of food poisoning incurred upon the consumption of uncooked food.",
   "UniqueID": "seferoni.FoodPoisoning",
   "EntryDll": "FoodPoisoning.dll",

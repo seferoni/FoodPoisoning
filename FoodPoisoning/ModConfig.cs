@@ -1,11 +1,54 @@
-﻿namespace FoodPoisoning
+﻿namespace FoodPoisoning;
+
+#region using directives
+
+using SharedLibrary.Classes;
+
+#endregion
+
+public sealed class ModConfig : ConfigClass
 {
-	public sealed class ModConfig
+	private readonly Dictionary<string, dynamic> _Defaults = new()
 	{
-		public int BasePoisoningChance { get; set; } = 30;
-		public int BaseDuration { get; set; } = 120;
-		public int HarmfulThreshold { get; set; } = 0;
-		public int HarmfulChanceOffset { get; set; } = 70;
-		public int HarmfulDurationOffset { get; set; } = 60;
+		{ "BasePoisoningChance", 30 },
+		{ "BaseDuration", 120 },
+		{ "HarmfulThreshold", 0 },
+		{ "HarmfulChanceOffset", 70 },
+		{ "HarmfulDurationOffset", 60 }
+	};
+
+	[GMCMIgnore]
+	internal override Dictionary<string, dynamic> Defaults
+	{
+		get
+		{
+			return _Defaults;
+		}
+		set{}
 	}
+
+	public ModConfig()
+	{
+		ResetProperties();
+	}
+
+	[GMCMRange(0, 100)]
+	[GMCMInterval(1)]
+	public int BasePoisoningChance { get; set; }
+
+	[GMCMRange(10, 240)]
+	[GMCMInterval(2)]
+	public int BaseDuration { get; set; }
+
+	[GMCMRange(-300, 100)]
+	[GMCMInterval(5)]
+	public int HarmfulThreshold { get; set; }
+
+	[GMCMRange(0, 100)]
+	[GMCMInterval(1)]
+	public int HarmfulChanceOffset { get; set; }
+
+	[GMCMRange(10, 120)]
+	[GMCMInterval(2)]
+	public int HarmfulDurationOffset { get; set; }
 }
