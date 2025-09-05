@@ -4,14 +4,18 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<GamePath>D:\Games\Stardew Valley</GamePath>
 		<EnableHarmony>true</EnableHarmony>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<SharedDir Condition="Exists('D:\sdv modding playground\repos')">D:\sdv modding playground\repos</SharedDir>
+		<SharedDir Condition="Exists('C:\Workspace\Stardew')">C:\Workspace\Stardew</SharedDir>
+	</PropertyGroup>
+
+	<Import Project="$(SharedDir)\SDVSharedLibrary\SharedLibrary\SharedLibrary.projitems" Label="Shared" />
 
 	<ItemGroup>
 		<PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
 	</ItemGroup>
-
-	<Import Project ="D:\sdv modding playground\repos\Shared\SharedLibrary\SharedLibrary.projitems" Label="Shared" />
 
 </Project>
